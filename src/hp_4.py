@@ -12,7 +12,7 @@ def reformat_dates(old_dates):
     date_list = []
     for date in old_dates:
         date_list.append(datetime.strptime(date, "%Y-%m-%d").strftime("%d %b %Y"))
-    return date_list
+    return date_list 
 
 
 def date_range(start, n):
@@ -82,8 +82,7 @@ def fees_report(infile, outfile):
 # "Run -> Module" in IDLE.  Use this section to run test code.  The
 # template code below tests the fees_report function.The
 #
-# Use the get_data_file_path function to get the full path of any file
-under the data directory.
+# Use the get_data_file_path function to get the full path of any file under the data directory.
 
 if __name__ == '__main__':
     
