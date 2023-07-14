@@ -46,7 +46,7 @@ def add_date_range(values, start_date):
 
 
 def fees_report(infile, outfile):
-    """Calculates late fees per patron id and writes a summary report to outfile."""
+    """Calculates late fees per patron ID and writes a summary report to outfile."""
     with open(infile) as file:
         list_patrons = []
         DictReader_obj = DictReader(file)
@@ -80,10 +80,10 @@ def fees_report(infile, outfile):
 
 # The following main selection block will only run when you choose
 # "Run -> Module" in IDLE.  Use this section to run test code.  The
-# template code below tests the fees_report function.
+# template code below tests the fees_report function.The
 #
 # Use the get_data_file_path function to get the full path of any file
-# under the data directory.
+under the data directory.
 
 if __name__ == '__main__':
     
