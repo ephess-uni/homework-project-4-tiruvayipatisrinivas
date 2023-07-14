@@ -47,35 +47,35 @@ def add_date_range(values, start_date):
 
 def fees_report(infile, outfile):
     """Calculates late fees per patron id and writes a summary report to outfile."""
-    with open(infile) as f:
-        li = []
-        DictReader_obj = DictReader(f)
+    with open(infile) as file:
+        list_patrons = []
+        DictReader_obj = DictReader(file)
         for item in DictReader_obj:
-            di = {}
-            day1 = datetime.strptime(item['date_returned'], '%m/%d/%Y') - datetime.strptime(item['date_due'],
+            new_dict = {}
+            late_days = datetime.strptime(item['date_returned'], '%m/%d/%Y') - datetime.strptime(item['date_due'],
                                                                                             '%m/%d/%Y')
-            if day1.days > 0:
-                di["patron_id"] = item['patron_id']
-                di["late_fees"] = "{:.2f}".format(round(day1.days * 0.25, 2))
-                li.append(di)
+            if late_days.days > 0:
+                new_dict["patron_id"] = item['patron_id']
+                new_dict["late_fees"] = "{:.2f}".format(round(late_days.days * 0.25, 2))
+                list_patrons.append(new_dict)
             else:
-                di["patron_id"] = item['patron_id']
-                di["late_fees"] = "0.00"
-                li.append(di)
+                new_dict["patron_id"] = item['patron_id']
+                new_dict["late_fees"] = "0.00"
+                list_patrons.append(new_dict)
 
         aggregated_data = defaultdict(float)
 
-        for dictionary in li:
+        for dictionary in list_patrons:
             key = dictionary['patron_id']
             aggregated_data[key] += float(dictionary['late_fees'])
 
-        tax = [{'patron_id': key, 'late_fees': "{:.2f}".format(value)} for key, value in aggregated_data.items()]
+        list_late = [{'patron_id': key, 'late_fees': "{:.2f}".format(value)} for key, value in aggregated_data.items()]
 
         with open(outfile, "w", newline="") as file:
             col = ['patron_id', 'late_fees']
             writer = DictWriter(file, fieldnames=col)
             writer.writeheader()
-            writer.writerows(tax)
+            writer.writerows(list_late)
 
 
 # The following main selection block will only run when you choose
@@ -100,5 +100,5 @@ if __name__ == '__main__':
     fees_report(BOOK_RETURNS_PATH, OUTFILE)
 
     # Print the data written to the outfile
-    with open (OUTFILE) as f:
+with open (OUTFILE) as f:
         print(f.read())
