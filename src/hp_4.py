@@ -46,8 +46,7 @@ def add_date_range(values, start_date):
 
 
 def fees_report(infile, outfile):
-    """Calculates late fees per patron id and writes a summary report to
-    outfile."""
+    """Calculates late fees per patron id and writes a summary report to outfile."""
     with open(infile) as f:
         li = []
         DictReader_obj = DictReader(f)
@@ -57,30 +56,27 @@ def fees_report(infile, outfile):
                                                                                             '%m/%d/%Y')
             if day1.days > 0:
                 di["patron_id"] = item['patron_id']
-                di["late_fees"] = round(day1.days * 0.25, 2)
+                di["late_fees"] = "{:.2f}".format(round(day1.days * 0.25, 2))
                 li.append(di)
             else:
                 di["patron_id"] = item['patron_id']
-                di["late_fees"] = float(0)
+                di["late_fees"] = "0.00"
                 li.append(di)
+
         aggregated_data = defaultdict(float)
 
         for dictionary in li:
             key = dictionary['patron_id']
-            aggregated_data[key] += dictionary['late_fees']
+            aggregated_data[key] += float(dictionary['late_fees'])
 
-        tax = [{'patron_id': key, 'late_fees': value} for key, value in aggregated_data.items()]
-        for dict in tax:
-            for k, v in dict.items():
-                if k == "late_fees":
-                    if len(str(v).split('.')[-1]) != 2:
-                        dict[k] = str(v)
+        tax = [{'patron_id': key, 'late_fees': "{:.2f}".format(value)} for key, value in aggregated_data.items()]
 
         with open(outfile, "w", newline="") as file:
             col = ['patron_id', 'late_fees']
             writer = DictWriter(file, fieldnames=col)
             writer.writeheader()
             writer.writerows(tax)
+
 
 # The following main selection block will only run when you choose
 # "Run -> Module" in IDLE.  Use this section to run test code.  The
@@ -104,5 +100,5 @@ if __name__ == '__main__':
     fees_report(BOOK_RETURNS_PATH, OUTFILE)
 
     # Print the data written to the outfile
-    with open(OUTFILE) as f:
+    with open (OUTFILE) as f:
         print(f.read())
