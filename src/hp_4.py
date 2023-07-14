@@ -34,13 +34,47 @@ def add_date_range(values, start_date):
     """Adds a daily date range to the list `values` beginning with
     `start_date`.  The date, value pairs are returned as tuples
     in the returned list."""
-    pass
+    final_list = []
+    seq=0
+    for i in values:
+        date_list=[]       
+        date_list.append(datetime.strptime(start_date,"%Y-%m-%d")  + timedelta(days=seq))
+        date_list.append(i)
+        final_list.append(tuple(telp_list))
+        seq+=1
+    return final_list
 
 
 def fees_report(infile, outfile):
     """Calculates late fees per patron id and writes a summary report to
     outfile."""
-    pass
+    with open(infile) as f:
+        li=[]
+        DictReader_obj = DictReader(f)
+        for item in DictReader_obj:
+            di={}
+            day1=datetime.strptime(item['date_returned'],'%m/%d/%Y')- datetime.strptime(item['date_due'],'%m/%d/%Y') 
+            if(day1.days>0):
+                di["patron_id"]=item['patron_id']
+                di["late_fees"]=round(day1.days*0.25, 2)
+                li.append(di)
+            else:
+                di["patron_id"]=item['patron_id']
+                di["late_fees"]=float(0)
+                li.append(di)
+        aggregated_data = {}
+
+        for dictionary in li:
+            key = (dictionary['patron_id'])
+
+            aggregated_data[key] = aggregated_data.get(key, 0) + dictionary['late_fees']
+
+        tax = [{'patron_id': key, 'late_fees': value} for key, value in aggregated_data.items()]
+        for dict in tax:
+            for k,v in dict.items():
+                if k == "late_fees":
+                    if len(str(v).split('.')[-1]) != 2:
+                        dict[k] = str(v)
 
 
 # The following main selection block will only run when you choose
