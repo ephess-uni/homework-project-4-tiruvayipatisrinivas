@@ -5,6 +5,8 @@ from csv import DictReader, DictWriter
 from collections import defaultdict
 
 
+
+
 def reformat_dates(old_dates):
     """Accepts a list of date strings in format yyyy-mm-dd, re-formats each
     element to a format dd mmm yyyy--01 Jan 2001."""
@@ -80,7 +82,6 @@ def fees_report(infile, outfile):
             writer = DictWriter(file, fieldnames=col)
             writer.writeheader()
             writer.writerows(tax)
-
 
 # The following main selection block will only run when you choose
 # "Run -> Module" in IDLE.  Use this section to run test code.  The
