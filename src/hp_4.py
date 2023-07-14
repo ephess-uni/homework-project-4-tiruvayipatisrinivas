@@ -40,7 +40,7 @@ def add_date_range(values, start_date):
         date_list=[]       
         date_list.append(datetime.strptime(start_date,"%Y-%m-%d")  + timedelta(days=seq))
         date_list.append(i)
-        final_list.append(tuple(telp_list))
+        final_list.append(tuple(date_list))
         seq+=1
     return final_list
 
