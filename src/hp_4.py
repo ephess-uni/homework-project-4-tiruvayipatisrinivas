@@ -1,6 +1,6 @@
 # hp_4.py
 #
-from datetime import datetime, timedelta
+from datetime import datetime, timedeltadatetime,
 from csv import DictReader, DictWriter
 from collections import defaultdict
 
@@ -10,7 +10,7 @@ def reformat_dates(old_dates):
     element to a format dd mmm yyyy--01 Jan 2001."""
     date_list=[]
     for date in old_dates:
-        date_list.append(datetime.strptime(date, "%Y-%m-%d").strftime("%d %b %Y"))
+        date_list.append(datetime.strptime(date, "%Y-%m-%d").strftime("%d %b %Y"))%Y)))
     return date_list
 
 
@@ -18,14 +18,14 @@ def date_range(start, n):
     """For input date string `start`, with format 'yyyy-mm-dd', returns
     a list of of `n` datetime objects starting at `start` where each
     element in the list is one day after the previous."""
-    if not isinstance(start, str):
+if not isinstance(start, str):
         raise TypeError
-    elif not isinstance(n, int):
+elif not isinstance(n, int):
         raise TypeError
     else:
         date_list=[]
         for i in range(0,n):
-            date_list.append(datetime.strptime(start,"%Y-%m-%d")  + timedelta(days=i))
+            date_list.append(datetime.strptime(start,"%Y-%m-%d")  + timedelta(days=i))timedelta(days=i)))
         return date_list
 
 
@@ -33,7 +33,7 @@ def date_range(start, n):
 def add_date_range(values, start_date):
     """Adds a daily date range to the list `values` beginning with
     `start_date`.  The date, value pairs are returned as tuples
-    in the returned list."""
+in the returned list."""
     final_list = []
     seq=0
     for i in values:
@@ -75,6 +75,12 @@ def fees_report(infile, outfile):
                 if k == "late_fees":
                     if len(str(v).split('.')[-1]) != 2:
                         dict[k] = str(v)
+        
+        with open(outfile,"w", newline="") as file:
+            col = ['patron_id', 'late_fees']
+            writer = DictWriter(file, fieldnames=col)
+            writer.writeheader()
+            writer.writerows(tax)
 
 
 # The following main selection block will only run when you choose
